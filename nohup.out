@@ -434,3 +434,13 @@ Killed
 
   ➜  Local:   http://127.0.0.1:5175/
 4:12:20 AM [vite] (client) [optimizer] bundling dependencies...
+[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+1026 |    }
+1027 |  }
+1028 |  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1029 |  html {
+1030 |    scroll-behavior: smooth;
+4:28:03 AM [vite] (client) hmr update /src/components/ServiceCard.jsx, /src/index.css
+4:28:03 AM [vite] (client) hmr update /src/components/ServiceCard.jsx, /src/index.css
+Killed
