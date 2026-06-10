@@ -4,6 +4,7 @@ import HeroSection from "../components/HeroSection";
 import VideosSection from "../components/VideosSection";
 import ServicesSection from "../components/ServicesSection";
 import QuoteForm from "../components/QuoteForm";
+import WhatsAppButton from "../components/WhatsAppButton";
 import { fetchBandInfo, fetchServices } from "../services/api";
 import { Music } from 'lucide-react';
 
@@ -11,6 +12,7 @@ const HomePage = () => {
   const [info, setInfo] = useState(null);
   const [services, setServices] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [showWhatsapp, setShowWhatsapp] = useState(false); // Estado para controlar visibilidad
 
   useEffect(() => {
     const loadData = async () => {
@@ -27,6 +29,26 @@ const HomePage = () => {
     };
     loadData();
   }, []);
+
+  // Efecto inteligente para detectar cuándo se llega a la sección de cotización
+  useEffect(() => {
+    const target = document.getElementById("cotizar");
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Si el formulario es visible en pantalla, activamos el botón
+        setShowWhatsapp(entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0.1, // Se activa en cuanto asoma el 10% de la sección
+      }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [info]); // Re-ejecutar cuando los datos terminen de cargar y el formulario exista en el DOM
 
   const handleSelect = (id) => {
     setSelected(id);
@@ -45,14 +67,19 @@ const HomePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-mariscos-900 text-mariscos-100">
+    <div className="min-h-screen bg-mariscos-900 text-mariscos-100 relative">
       <Navbar />
       <main>
         <HeroSection bandInfo={info} />
         <VideosSection />
         <ServicesSection onSelectService={handleSelect} />
-        <QuoteForm preselectedService={selected} services={services} />
+        <div id="cotizar">
+          <QuoteForm preselectedService={selected} services={services} />
+        </div>
       </main>
+      
+      {/* Pasamos el estado al botón flotante */}
+      <WhatsAppButton show={showWhatsapp} />
     </div>
   );
 };
