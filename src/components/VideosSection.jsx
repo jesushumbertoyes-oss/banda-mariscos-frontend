@@ -1,93 +1,70 @@
-import { useEffect, useState } from 'react';
-import { Youtube, Play } from 'lucide-react';
-import { fetchVideos } from '../services/api';
+import React from 'react';
+import { Play } from 'lucide-react';
 
 const VideosSection = () => {
-  const [videos, setVideos] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadVideos = async () => {
-      try {
-        const { data } = await fetchVideos();
-        setVideos(data.results || data);
-      } catch (err) {
-        console.error('Error cargando videos:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadVideos();
-  }, []);
-
-  if (loading) {
-    return (
-      <section id="videos" className="py-20 bg-mariscos-800">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="animate-pulse text-brass">Cargando videos...</div>
-        </div>
-      </section>
-    );
-  }
+  const videos = [
+    {
+      id: 1,
+      title: "Banda Mariscos - El Toro Tumbado",
+      description: "Puro metal pesado, güiro tradicional y tololoche raspado. Corrido Moderno Regional Urbano.",
+      youtubeUrl: "https://youtu.be/_vTf1VfUMd4"
+    }
+  ];
 
   return (
-    <section id="videos" className="py-20 bg-mariscos-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="videos" className="py-16 bg-mariscos-850 text-mariscos-100 border-t border-mariscos-700/50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <Youtube className="w-10 h-10 text-brass mx-auto mb-4" />
-          <h2 className="font-display text-4xl md:text-5xl text-brass mb-2">
-            NUESTROS VIDEOS
-          </h2>
-          <p className="text-mariscos-300">Lo más reciente del canal</p>
+          <span className="text-brass font-body text-xs uppercase tracking-widest font-bold">🎬 NUESTROS VIDEOS</span>
+          <h2 className="text-4xl font-display text-brass-light mt-2 tracking-wider">LO MÁS RECIENTE DEL CANAL</h2>
+          <div className="w-16 h-0.5 bg-brass mx-auto mt-4 rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map(video => (
-            <div 
-              key={video.id} 
-              className="group bg-mariscos-900 rounded-xl overflow-hidden border border-mariscos-700 hover:border-brass/50 transition-all"
-            >
-              <div className="relative aspect-video bg-mariscos-950">
-                {video.thumbnail_url ? (
-                  <img 
-                    src={video.thumbnail_url} 
-                    alt={video.title}
-                    className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Play className="w-12 h-12 text-mariscos-600" />
-                  </div>
-                )}
+        <div className="max-w-3xl mx-auto">
+          {videos.map((video) => (
+            <div key={video.id} className="bg-mariscos-900 rounded-xl overflow-hidden border border-mariscos-700 shadow-2xl hover:border-brass/30 transition-all duration-300">
+              {/* Contenedor del video con miniatura simulada */}
+              <div className="relative aspect-video bg-mariscos-950 flex items-center justify-center group overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-mariscos-950 to-transparent opacity-60 z-10" />
+                
+                {/* Patrón rústico de fondo para simular el reproductor */}
+                <div className="absolute inset-0 opacity-5 group-hover:scale-105 transition-transform duration-500" style={{
+                  backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, #B5A642 2px, #B5A642 4px)`
+                }} />
+
+                {/* Botón de reproducción */}
                 <a 
-                  href={video.watch_url} 
+                  href={video.youtubeUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40"
+                  className="relative z-20 w-16 h-16 flex items-center justify-center rounded-full bg-brass text-mariscos-900 shadow-xl group-hover:bg-brass-light group-hover:scale-110 transition-all duration-300 cursor-pointer"
                 >
-                  <Play className="w-16 h-16 text-brass fill-brass" />
+                  <Play className="w-8 h-8 fill-current ml-1" />
                 </a>
               </div>
-              <div className="p-4">
-                <h3 className="text-mariscos-100 font-medium line-clamp-2 mb-1">
+
+              {/* Detalles del video */}
+              <div className="p-6">
+                <h3 className="text-xl font-display text-brass tracking-wide mb-2">
                   {video.title}
                 </h3>
-                {video.description && (
-                  <p className="text-mariscos-400 text-sm line-clamp-2">
-                    {video.description}
-                  </p>
-                )}
+                <p className="text-sm font-body text-mariscos-300 leading-relaxed">
+                  {video.description}
+                </p>
+                <div className="mt-4 pt-4 border-t border-mariscos-800 flex justify-end">
+                  <a 
+                    href={video.youtubeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-body text-brass hover:text-brass-light uppercase tracking-wider font-semibold transition-colors"
+                  >
+                    Ver en YouTube →
+                  </a>
+                </div>
               </div>
             </div>
           ))}
         </div>
-
-        {videos.length === 0 && (
-          <div className="text-center text-mariscos-400 py-12">
-            Próximamente videos disponibles
-          </div>
-        )}
       </div>
     </section>
   );

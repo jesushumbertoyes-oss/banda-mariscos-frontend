@@ -1,17 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Toaster } from 'react-hot-toast';
-import Navbar from '../components/Navbar';
-import HeroSection from '../components/HeroSection';
-import VideosSection from '../components/VideosSection';
-import ServicesSection from '../components/ServicesSection';
-import QuoteForm from '../components/QuoteForm';
-import Footer from '../components/Footer';
-import { fetchBandInfo, fetchServices } from '../services/api';
+import { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import HeroSection from "../components/HeroSection";
+import VideosSection from "../components/VideosSection";
+import ServicesSection from "../components/ServicesSection";
+import QuoteForm from "../components/QuoteForm";
+import { fetchBandInfo, fetchServices } from "../services/api";
+import { Music } from 'lucide-react';
 
 const HomePage = () => {
-  const [bandInfo, setBandInfo] = useState(null);
+  const [info, setInfo] = useState(null);
   const [services, setServices] = useState([]);
-  const [selectedService, setSelectedService] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -20,47 +19,40 @@ const HomePage = () => {
           fetchBandInfo(),
           fetchServices()
         ]);
-        setBandInfo(bandRes.data);
+        setInfo(bandRes.data);
         setServices(servicesRes.data.results || servicesRes.data);
-      } catch (err) {
-        console.error('Error cargando datos iniciales:', err);
+      } catch (e) {
+        console.error("Error cargando datos de Django:", e);
       }
     };
     loadData();
   }, []);
 
-  const handleSelectService = (serviceId) => {
-    setSelectedService(serviceId);
-    // Scroll suave al formulario
-    document.getElementById('cotizar')?.scrollIntoView({ behavior: 'smooth' });
+  const handleSelect = (id) => {
+    setSelected(id);
+    document.getElementById("cotizar")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  if (!info) {
+    return (
+      <div className="min-h-screen bg-mariscos-900 flex flex-col items-center justify-center text-mariscos-100 gap-4">
+        <Music className="w-12 h-12 text-brass animate-spin" />
+        <span className="font-display text-xl tracking-widest text-brass-light animate-pulse uppercase">
+          Cargando...
+        </span>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-mariscos-900 text-mariscos-100 font-body">
-      <Toaster 
-        position="top-center"
-        toastOptions={{
-          style: {
-            background: '#2d1f14',
-            color: '#FFE4C4',
-            border: '1px solid #B5A642',
-          },
-        }}
-      />
-      
+    <div className="min-h-screen bg-mariscos-900 text-mariscos-100">
       <Navbar />
-      
       <main>
-        <HeroSection bandInfo={bandInfo} />
+        <HeroSection bandInfo={info} />
         <VideosSection />
-        <ServicesSection onSelectService={handleSelectService} />
-        <QuoteForm 
-          preselectedService={selectedService} 
-          services={services}
-        />
+        <ServicesSection onSelectService={handleSelect} />
+        <QuoteForm preselectedService={selected} services={services} />
       </main>
-      
-      <Footer bandInfo={bandInfo} />
     </div>
   );
 };

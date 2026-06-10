@@ -1,43 +1,59 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  /* Configuración oficial de colores personalizados en v4 */
+  --color-mariscos-900: #1a0f0a;
+  --color-mariscos-850: #23150e;
+  --color-mariscos-800: #2d1f14;
+  --color-mariscos-700: #4a3328;
+  --color-mariscos-600: #8B4513;
+  --color-mariscos-500: #CD853F;
+  --color-mariscos-400: #D2691E;
+  --color-mariscos-300: #DEB887;
+  --color-mariscos-200: #F4A460;
+  --color-mariscos-100: #FFE4C4;
+  --color-mariscos-50:  #FFF8DC;
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    @apply bg-mariscos-900 text-mariscos-100 antialiased;
-    font-family: 'Inter', sans-serif;
-  }
+  --color-brass: #B5A642;
+  --color-brass-light: #D4C574;
+  --color-brass-dark: #8B7D2E;
 
-  ::selection {
-    @apply bg-brass/30 text-mariscos-50;
-  }
+  /* Fuentes oficiales de la banda */
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "Inter", sans-serif;
 }
 
-@layer components {
-  .font-display {
-    font-family: 'Bebas Neue', sans-serif;
-  }
+@utility font-display {
+  font-family: var(--font-display);
 }
 
-/* Scrollbar personalizada */
+@utility font-body {
+  font-family: var(--font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-mariscos-900);
+  color: var(--color-mariscos-100);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar rústica con variables v4 */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  @apply bg-mariscos-900;
+  background-color: var(--color-mariscos-900);
 }
-
 ::-webkit-scrollbar-thumb {
-  @apply bg-mariscos-700 rounded-full;
+  background-color: var(--color-mariscos-700);
+  border-radius: 9999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-brass;
+  background-color: var(--color-brass);
 }

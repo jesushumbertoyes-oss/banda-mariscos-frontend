@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { Send, Phone, User, Mail, FileText, Link2, DollarSign, AlertCircle } from 'lucide-react';
 import { useQuoteForm } from '../hooks/useQuoteForm';
 import toast from 'react-hot-toast';
 
@@ -7,7 +6,6 @@ const QuoteForm = ({ preselectedService, services }) => {
   const { formData, errors, loading, handleChange, handleSubmit } = useQuoteForm();
   const formRef = useRef(null);
 
-  // Scroll al formulario cuando se selecciona un servicio
   useEffect(() => {
     if (preselectedService && formRef.current) {
       formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -35,11 +33,10 @@ const QuoteForm = ({ preselectedService, services }) => {
           </p>
         </div>
 
-        <form 
+        <form
           onSubmit={onSubmit}
           className="bg-mariscos-900 rounded-2xl p-6 md:p-8 border border-mariscos-700 shadow-2xl"
         >
-          {/* Servicio */}
           <div className="mb-6">
             <label className="block text-mariscos-200 text-sm font-medium mb-2">
               Servicio de Interés *
@@ -61,19 +58,18 @@ const QuoteForm = ({ preselectedService, services }) => {
             </div>
             {errors.service && (
               <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
-                <AlertCircle className="w-3 h-3" /> {errors.service}
+                <span>⚠️</span> {errors.service}
               </p>
             )}
           </div>
 
-          {/* Nombre y Teléfono */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <label className="block text-mariscos-200 text-sm font-medium mb-2">
                 Nombre Completo *
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-3 w-5 h-5 text-mariscos-500" />
+                <span className="absolute left-3 top-3.5 text-mariscos-500 text-lg select-none">👤</span>
                 <input
                   type="text"
                   name="full_name"
@@ -93,7 +89,7 @@ const QuoteForm = ({ preselectedService, services }) => {
                 Teléfono / WhatsApp *
               </label>
               <div className="relative">
-                <Phone className="absolute left-3 top-3 w-5 h-5 text-mariscos-500" />
+                <span className="absolute left-3 top-3.5 text-mariscos-500 text-lg select-none">📱</span>
                 <input
                   type="tel"
                   name="phone"
@@ -109,13 +105,12 @@ const QuoteForm = ({ preselectedService, services }) => {
             </div>
           </div>
 
-          {/* Email */}
           <div className="mb-6">
             <label className="block text-mariscos-200 text-sm font-medium mb-2">
               Correo Electrónico <span className="text-mariscos-500">(opcional)</span>
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 w-5 h-5 text-mariscos-500" />
+              <span className="absolute left-3 top-3.5 text-mariscos-500 text-lg select-none">✉️</span>
               <input
                 type="email"
                 name="email"
@@ -127,13 +122,12 @@ const QuoteForm = ({ preselectedService, services }) => {
             </div>
           </div>
 
-          {/* Detalles */}
           <div className="mb-6">
             <label className="block text-mariscos-200 text-sm font-medium mb-2">
               Detalles de tu Proyecto *
             </label>
             <div className="relative">
-              <FileText className="absolute left-3 top-3 w-5 h-5 text-mariscos-500" />
+              <span className="absolute left-3 top-3.5 text-mariscos-500 text-lg select-none">📝</span>
               <textarea
                 name="details"
                 value={formData.details}
@@ -148,13 +142,12 @@ const QuoteForm = ({ preselectedService, services }) => {
             )}
           </div>
 
-          {/* Links de referencia */}
           <div className="mb-6">
             <label className="block text-mariscos-200 text-sm font-medium mb-2">
               Links de Referencia <span className="text-mariscos-500">(opcional)</span>
             </label>
             <div className="relative">
-              <Link2 className="absolute left-3 top-3 w-5 h-5 text-mariscos-500" />
+              <span className="absolute left-3 top-3.5 text-mariscos-500 text-lg select-none">🔗</span>
               <textarea
                 name="reference_links"
                 value={formData.reference_links}
@@ -166,20 +159,19 @@ const QuoteForm = ({ preselectedService, services }) => {
             </div>
           </div>
 
-          {/* Presupuesto y Urgencia */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
               <label className="block text-mariscos-200 text-sm font-medium mb-2">
                 Presupuesto Aproximado
               </label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-3 w-5 h-5 text-mariscos-500" />
+                <span className="absolute left-3 top-3.5 text-mariscos-500 text-lg select-none">💵</span>
                 <input
                   type="text"
                   name="budget_hint"
                   value={formData.budget_hint}
                   onChange={handleChange}
-                  placeholder="Ej: $2,000 - $5,000 MXN"
+                  placeholder="Ej: $120 - $200 MXN"
                   className="w-full bg-mariscos-800 border border-mariscos-600 rounded-lg pl-10 pr-4 py-3 text-mariscos-100 focus:outline-none focus:border-brass transition-colors"
                 />
               </div>
@@ -196,13 +188,12 @@ const QuoteForm = ({ preselectedService, services }) => {
                 className="w-full bg-mariscos-800 border border-mariscos-600 rounded-lg px-4 py-3 text-mariscos-100 focus:outline-none focus:border-brass transition-colors"
               >
                 <option value="low">Sin prisa</option>
-                <option value="normal">Normal (1-2 semanas)</option>
-                <option value="high">Urgente (menos de 1 semana)</option>
+                <option value="normal">Normal (1 a 2 días)</option>
+                <option value="high">¡Para hoy mismo! (Menos de 12 horas)</option>
               </select>
             </div>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
@@ -215,7 +206,7 @@ const QuoteForm = ({ preselectedService, services }) => {
               </>
             ) : (
               <>
-                <Send className="w-5 h-5" />
+                <span className="text-lg">➡️</span>
                 Enviar Solicitud
               </>
             )}

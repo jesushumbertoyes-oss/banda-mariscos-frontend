@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Briefcase } from 'lucide-react';
 import { fetchServices } from '../services/api';
 import ServiceCard from './ServiceCard';
 
@@ -25,12 +24,12 @@ const ServicesSection = ({ onSelectService }) => {
     <section id="servicios" className="py-20 bg-mariscos-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-4">
-          <Briefcase className="w-10 h-10 text-brass mx-auto mb-4" />
+          <div className="text-4xl mb-4">🎺</div>
           <h2 className="font-display text-4xl md:text-5xl text-brass mb-2">
             SERVICIOS MUSICALES
           </h2>
           <p className="text-mariscos-300 max-w-2xl mx-auto">
-            Producción exclusiva con la firma callejera de Banda Mariscos. 
+            Producción exclusiva con la firma callejera de Banda Mariscos.
             Tololoche pesado, vientos de guerra y el sabor sinaloense que tu proyecto necesita.
           </p>
         </div>
@@ -44,9 +43,9 @@ const ServicesSection = ({ onSelectService }) => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
             {services.map(service => (
-              <ServiceCard 
-                key={service.id} 
-                service={service} 
+              <ServiceCard
+                key={service.id}
+                service={service}
                 onSelect={onSelectService}
               />
             ))}
